@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: reactive-order-tracker
+server:
+  port: 8080
+logging:
+  level:
+    root: INFO
+    "[org.springframework.web]": DEBUG
+    "[reactor.netty]": DEBUG
+    "[com.example.ordertracker]": DEBUG
