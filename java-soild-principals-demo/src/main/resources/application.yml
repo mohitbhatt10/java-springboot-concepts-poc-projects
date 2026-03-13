@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: java-soild-principals-demo
+
+server:
+  port: 8082

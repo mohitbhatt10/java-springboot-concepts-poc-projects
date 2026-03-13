@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>java-soild-principals-demo | SOLID Implementation Guide</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a31;
+      --panel-2: #182241;
+      --text: #eaf0ff;
+      --muted: #b8c4e6;
+      --primary: #80aaff;
+      --accent: #76e4c3;
+      --warning: #ffd28a;
+      --danger: #ff9f9f;
+      --border: #2b3a67;
+      --code: #0b132b;
+      --shadow: 0 8px 30px rgba(0,0,0,0.25);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Inter, system-ui, -apple-system, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #0a0f1f 0%, #0f1730 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 60px;
+    }
+
+    .hero {
+      background: radial-gradient(circle at top right, #274084 0%, #121a31 45%, #101730 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(1.55rem, 2.4vw, 2.4rem);
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 950px;
+    }
+
+    .meta {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      background: rgba(128,170,255,0.15);
+      border: 1px solid rgba(128,170,255,0.4);
+      color: #dce7ff;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .toc, .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .toc {
+      position: sticky;
+      top: 18px;
+      padding: 16px;
+    }
+
+    .toc h3 {
+      margin: 0 0 10px;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+
+    .toc a {
+      display: block;
+      color: #d6e2ff;
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 8px;
+      margin-bottom: 3px;
+      font-size: 0.93rem;
+    }
+
+    .toc a:hover {
+      background: var(--panel-2);
+    }
+
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    section.card {
+      padding: 20px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 1.35rem;
+    }
+
+    h3 {
+      margin: 16px 0 8px;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    p { margin: 8px 0; }
+
+    ul {
+      margin: 8px 0 8px 20px;
+      padding: 0;
+    }
+
+    li { margin: 6px 0; }
+
+    .muted { color: var(--muted); }
+
+    .grid-2 {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .panel {
+      background: var(--panel-2);
+      border: 1px solid #324472;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .panel h4 {
+      margin: 0 0 8px;
+      color: #cde0ff;
+      font-size: 0.98rem;
+    }
+
+    code {
+      font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+      font-size: 0.88rem;
+      background: rgba(118,228,195,0.13);
+      border: 1px solid rgba(118,228,195,0.35);
+      border-radius: 6px;
+      padding: 2px 6px;
+      color: #dcfff4;
+    }
+
+    pre {
+      margin: 8px 0;
+      background: var(--code);
+      border: 1px solid #25355f;
+      border-radius: 10px;
+      padding: 12px;
+      overflow: auto;
+      color: #d8e7ff;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      border: 1px solid #2f426f;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #1a2850;
+      color: #dbe7ff;
+      font-weight: 600;
+    }
+
+    .note {
+      border-left: 4px solid var(--warning);
+      background: rgba(255,210,138,0.12);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      color: #ffe8c1;
+    }
+
+    .warn {
+      border-left: 4px solid var(--danger);
+      background: rgba(255,159,159,0.12);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      color: #ffdede;
+    }
+
+    .footer {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1 class="title">SOLID Principals Implementation Guide</h1>
+      <p class="subtitle">
+        This document explains the current implementation of SOLID in the
+        <code>java-soild-principals-demo</code> project. It is designed as a long-term reference,
+        so future maintainers can quickly understand <strong>what exists</strong>, <strong>how each flow works</strong>,
+        and <strong>what key points to protect</strong> while extending the codebase.
+      </p>
+      <div class="meta">
+        <span class="chip">Spring Boot 3.4.2</span>
+        <span class="chip">Java 17</span>
+        <span class="chip">Controller-driven demos</span>
+        <span class="chip">Port 8082</span>
+      </div>
+      <div class="note" style="margin-top:14px;">
+        Naming note: this project intentionally uses the requested naming style
+        (<code>soild</code> and <code>principals</code>) for folder/artifact naming consistency.
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="toc">
+        <h3>Contents</h3>
+        <a href="#overview">1) Project Overview</a>
+        <a href="#architecture">2) High-Level Architecture</a>
+        <a href="#endpoints">3) API Endpoints & Payloads</a>
+        <a href="#srp">4) SRP</a>
+        <a href="#ocp">5) OCP</a>
+        <a href="#lsp">6) LSP</a>
+        <a href="#isp">7) ISP</a>
+        <a href="#dip">8) DIP</a>
+        <a href="#cross-cutting">9) Validation & Error Handling</a>
+        <a href="#future">10) Future Maintenance Guidelines</a>
+      </aside>
+
+      <main>
+        <section id="overview" class="card">
+          <h2>1) Project Overview</h2>
+          <p>
+            The application exposes dedicated REST endpoints for each SOLID principle under
+            <code>/api/solid</code>. Each endpoint triggers one service flow that is intentionally kept small,
+            explicit, and heavily commented for educational clarity.
+          </p>
+          <div class="grid-2">
+            <div class="panel">
+              <h4>Primary objective</h4>
+              <ul>
+                <li>Demonstrate principle-specific design in a practical way.</li>
+                <li>Return readable response objects that explain each flow result.</li>
+                <li>Keep extension paths obvious for future contributors.</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <h4>Core layers</h4>
+              <ul>
+                <li><strong>Controller:</strong> entry points for HTTP requests.</li>
+                <li><strong>Service interfaces + impl:</strong> orchestration and principle logic.</li>
+                <li><strong>solid/* packages:</strong> focused classes for each principle.</li>
+                <li><strong>Model DTOs:</strong> request and response contracts.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="architecture" class="card">
+          <h2>2) High-Level Architecture</h2>
+          <pre>
+Client
+  -> /api/solid/*
+    -> SolidPrinciplesController
+      -> Principle-specific service (Srp/Ocp/Lsp/Isp/Dip)
+        -> Principle classes under solid/{srp|ocp|lsp|isp|dip}
+          -> PrincipleDemoResponse JSON
+          </pre>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Role</th>
+                <th>Important Files</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Controller</td>
+                <td>Maps HTTP requests to service calls</td>
+                <td><code>controller/SolidPrinciplesController</code></td>
+              </tr>
+              <tr>
+                <td>Service Contract</td>
+                <td>Defines behavior by principle</td>
+                <td><code>service/*DemoService</code></td>
+              </tr>
+              <tr>
+                <td>Service Implementation</td>
+                <td>Executes step-by-step flow</td>
+                <td><code>service/impl/*DemoServiceImpl</code></td>
+              </tr>
+              <tr>
+                <td>Principle Classes</td>
+                <td>Actual design implementation examples</td>
+                <td><code>solid/srp|ocp|lsp|isp|dip/*</code></td>
+              </tr>
+              <tr>
+                <td>Cross-cutting</td>
+                <td>Validation and centralized error response</td>
+                <td><code>exception/GlobalExceptionHandler</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="endpoints" class="card">
+          <h2>3) API Endpoints & Payloads</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Principle</th>
+                <th>Method + URL</th>
+                <th>Sample Payload</th>
+                <th>Expected Intent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SRP</td>
+                <td><code>GET /api/solid/srp</code></td>
+                <td>None</td>
+                <td>Shows responsibility split: validate -> save -> notify.</td>
+              </tr>
+              <tr>
+                <td>OCP</td>
+                <td><code>POST /api/solid/ocp</code></td>
+                <td>
+                  <pre>{
+  "customerType": "REGULAR | PREMIUM",
+  "amount": 1000
+}</pre>
+                </td>
+                <td>Selects strategy without modifying service code.</td>
+              </tr>
+              <tr>
+                <td>LSP</td>
+                <td><code>POST /api/solid/lsp</code></td>
+                <td>
+                  <pre>{
+  "shape": "RECTANGLE | SQUARE",
+  "width": 10,
+  "height": 4
+}</pre>
+                </td>
+                <td>Substitutes concrete shapes through one abstraction.</td>
+              </tr>
+              <tr>
+                <td>ISP</td>
+                <td><code>POST /api/solid/isp</code></td>
+                <td>
+                  <pre>{
+  "workerType": "HUMAN | ROBOT",
+  "task": "pack-orders"
+}</pre>
+                </td>
+                <td>Uses small interfaces so implementations are not forced into irrelevant methods.</td>
+              </tr>
+              <tr>
+                <td>DIP</td>
+                <td><code>POST /api/solid/dip</code></td>
+                <td>
+                  <pre>{
+  "channel": "EMAIL | SMS",
+  "recipient": "demo.user@example.com",
+  "message": "Order shipped"
+}</pre>
+                </td>
+                <td>High-level service depends on abstraction (<code>MessageSender</code>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="srp" class="card">
+          <h2>4) SRP — Single Responsibility Principle</h2>
+          <p>
+            <strong>Intent:</strong> A class should have one reason to change.
+          </p>
+
+          <h3>Current implementation</h3>
+          <ul>
+            <li><code>OrderValidator</code>: validates business input constraints.</li>
+            <li><code>OrderRepositorySimulator</code>: handles persistence simulation only.</li>
+            <li><code>OrderNotifier</code>: handles notification logic only.</li>
+            <li><code>SrpDemoServiceImpl</code>: orchestrates the above classes in sequence.</li>
+          </ul>
+
+          <h3>Flow steps</h3>
+          <ol>
+            <li>Build a sample <code>OrderData</code>.</li>
+            <li>Validate through <code>OrderValidator</code>.</li>
+            <li>Persist through <code>OrderRepositorySimulator</code>.</li>
+            <li>Notify through <code>OrderNotifier</code>.</li>
+            <li>Return details inside <code>PrincipleDemoResponse</code>.</li>
+          </ol>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Do not move validation/persistence/notification into one class.</li>
+            <li>Keep orchestration separate from low-level work.</li>
+            <li>If new behavior is added (audit, metrics), add a dedicated class.</li>
+          </ul>
+
+          <div class="warn">
+            Anti-pattern to avoid: a “god service” that validates, writes data, sends notifications,
+            logs, and handles formatting in one method.
+          </div>
+        </section>
+
+        <section id="ocp" class="card">
+          <h2>5) OCP — Open/Closed Principle</h2>
+          <p>
+            <strong>Intent:</strong> Software entities should be open for extension, closed for modification.
+          </p>
+
+          <h3>Current implementation</h3>
+          <ul>
+            <li><code>DiscountStrategy</code> defines contract (<code>getType()</code>, <code>apply()</code>).</li>
+            <li><code>RegularDiscountStrategy</code> and <code>PremiumDiscountStrategy</code> implement it.</li>
+            <li><code>OcpDemoServiceImpl</code> receives all strategy beans and builds a map.</li>
+            <li>Runtime selection is done by request <code>customerType</code>.</li>
+          </ul>
+
+          <h3>Flow steps</h3>
+          <ol>
+            <li>Normalize <code>customerType</code> from request.</li>
+            <li>Resolve strategy from lookup map.</li>
+            <li>Apply selected strategy to amount.</li>
+            <li>Return chosen strategy and final amount in response.</li>
+          </ol>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Avoid large <code>if/else</code> or <code>switch</code> branches in service for each type.</li>
+            <li>To add new discount behavior, create a new strategy class only.</li>
+            <li>Keep type keys explicit and documented.</li>
+          </ul>
+
+          <div class="note">
+            Extension recipe: add <code>VipDiscountStrategy</code> implementing <code>DiscountStrategy</code>.
+            No change is required in controller or service orchestration logic.
+          </div>
+        </section>
+
+        <section id="lsp" class="card">
+          <h2>6) LSP — Liskov Substitution Principle</h2>
+          <p>
+            <strong>Intent:</strong> Subtypes must be substitutable for their base types without breaking correctness.
+          </p>
+
+          <h3>Current implementation</h3>
+          <ul>
+            <li><code>Shape</code> abstraction defines <code>area()</code> and <code>type()</code>.</li>
+            <li><code>Rectangle</code> and <code>Square</code> provide valid independent implementations.</li>
+            <li><code>LspDemoServiceImpl</code> works with <code>Shape</code>, not concrete type APIs.</li>
+          </ul>
+
+          <h3>Flow steps</h3>
+          <ol>
+            <li>Receive shape type + dimensions.</li>
+            <li>Create concrete shape instance.</li>
+            <li>Store instance as <code>Shape</code> reference.</li>
+            <li>Compute area by calling abstraction method.</li>
+            <li>Return area + resolved type.</li>
+          </ol>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Do not break contract assumptions of <code>Shape</code> methods.</li>
+            <li>Prefer composition or sibling implementations over fragile inheritance hacks.</li>
+            <li>Every <code>Shape</code> implementation should produce valid, predictable area behavior.</li>
+          </ul>
+        </section>
+
+        <section id="isp" class="card">
+          <h2>7) ISP — Interface Segregation Principle</h2>
+          <p>
+            <strong>Intent:</strong> Clients should not be forced to depend on methods they do not use.
+          </p>
+
+          <h3>Current implementation</h3>
+          <ul>
+            <li><code>Workable</code> contains only work behavior.</li>
+            <li><code>Eatable</code> contains only eating behavior.</li>
+            <li><code>HumanWorker</code> implements both interfaces.</li>
+            <li><code>RobotWorker</code> implements only <code>Workable</code>.</li>
+            <li><code>IspDemoServiceImpl</code> uses capability checks and does not force unsupported behavior.</li>
+          </ul>
+
+          <h3>Flow steps</h3>
+          <ol>
+            <li>Resolve worker type from request.</li>
+            <li>Use <code>Workable</code> for common task execution.</li>
+            <li>Call <code>eat()</code> only if worker also implements <code>Eatable</code>.</li>
+            <li>Return actions list for explainability.</li>
+          </ol>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Keep interfaces minimal and role-focused.</li>
+            <li>Never add unrelated methods into shared interfaces for convenience.</li>
+            <li>When adding new worker types, implement only the capabilities needed.</li>
+          </ul>
+        </section>
+
+        <section id="dip" class="card">
+          <h2>8) DIP — Dependency Inversion Principle</h2>
+          <p>
+            <strong>Intent:</strong> High-level modules should depend on abstractions, not concrete implementations.
+          </p>
+
+          <h3>Current implementation</h3>
+          <ul>
+            <li><code>MessageSender</code> abstraction represents delivery behavior.</li>
+            <li><code>EmailMessageSender</code> and <code>SmsMessageSender</code> are concrete channels.</li>
+            <li><code>DipDemoServiceImpl</code> depends on <code>List&lt;MessageSender&gt;</code> and resolves by channel key.</li>
+            <li>No hard dependency on a concrete sender class in high-level service.</li>
+          </ul>
+
+          <h3>Flow steps</h3>
+          <ol>
+            <li>Normalize requested channel.</li>
+            <li>Resolve sender from map by abstraction key.</li>
+            <li>Send message via abstraction method.</li>
+            <li>Return sender identity and delivery trace.</li>
+          </ol>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Do not instantiate concrete senders directly in service.</li>
+            <li>Add new channels by introducing new <code>MessageSender</code> implementation beans.</li>
+            <li>Keep channel mapping deterministic and clear.</li>
+          </ul>
+
+          <div class="note">
+            Extension recipe: add <code>PushMessageSender</code> implementing <code>MessageSender</code>.
+            Existing service logic stays unchanged.
+          </div>
+        </section>
+
+        <section id="cross-cutting" class="card">
+          <h2>9) Validation & Error Handling</h2>
+          <h3>Current implementation</h3>
+          <ul>
+            <li>Request DTOs use Bean Validation annotations (<code>@NotBlank</code>, <code>@NotNull</code>, <code>@Positive</code>).</li>
+            <li>Controller methods enforce validation with <code>@Valid</code>.</li>
+            <li><code>GlobalExceptionHandler</code> centralizes validation and business errors.</li>
+          </ul>
+
+          <h3>Key points to protect</h3>
+          <ul>
+            <li>Keep error payload shape consistent for clients.</li>
+            <li>Avoid scattering try/catch blocks in each controller method.</li>
+            <li>Promote explicit business errors with actionable messages.</li>
+          </ul>
+        </section>
+
+        <section id="future" class="card">
+          <h2>10) Future Maintenance Guidelines</h2>
+          <h3>When adding new examples</h3>
+          <ul>
+            <li>Add a dedicated endpoint and corresponding service contract.</li>
+            <li>Preserve clear layering: controller -> service -> principle classes.</li>
+            <li>Document flow steps and reason for design decisions in code comments.</li>
+          </ul>
+
+          <h3>Quality checklist before merging</h3>
+          <ul>
+            <li>Does the change preserve the target SOLID principle without compromise?</li>
+            <li>Are responsibilities still cleanly separated?</li>
+            <li>Can behavior be extended without editing stable orchestrator code?</li>
+            <li>Are request validation and error responses still consistent?</li>
+            <li>Are comments still accurate and not stale?</li>
+          </ul>
+
+          <h3>Recommended future upgrades</h3>
+          <ul>
+            <li>Add integration tests for each endpoint with valid and invalid payloads.</li>
+            <li>Add API examples in automated docs (OpenAPI/Swagger).</li>
+            <li>Add simple sequence diagrams for each principle flow.</li>
+          </ul>
+
+          <p class="footer">
+            Last curated for current implementation baseline of <code>java-soild-principals-demo</code>.
+            Keep this document updated whenever principle behavior, endpoint contracts, or package structure changes.
+          </p>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

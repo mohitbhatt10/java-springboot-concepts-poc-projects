@@ -1,0 +1,268 @@
+{
+  "info": {
+    "_postman_id": "6df0720c-2f38-4f95-9f07-9024fd39e4e5",
+    "name": "java-soild-principals-demo",
+    "description": "Postman collection to test all SOLID demo flows exposed by java-soild-principals-demo.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082"
+    }
+  ],
+  "item": [
+    {
+      "name": "SRP - GET /api/solid/srp",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/srp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "srp"
+          ]
+        },
+        "description": "Tests Single Responsibility Principle flow."
+      },
+      "response": []
+    },
+    {
+      "name": "OCP - POST /api/solid/ocp (REGULAR)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerType\": \"REGULAR\",\n  \"amount\": 1000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/ocp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "ocp"
+          ]
+        },
+        "description": "Tests Open/Closed Principle using REGULAR discount strategy."
+      },
+      "response": []
+    },
+    {
+      "name": "OCP - POST /api/solid/ocp (PREMIUM)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerType\": \"PREMIUM\",\n  \"amount\": 1000\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/ocp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "ocp"
+          ]
+        },
+        "description": "Tests Open/Closed Principle using PREMIUM discount strategy."
+      },
+      "response": []
+    },
+    {
+      "name": "LSP - POST /api/solid/lsp (RECTANGLE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shape\": \"RECTANGLE\",\n  \"width\": 10,\n  \"height\": 4\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/lsp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "lsp"
+          ]
+        },
+        "description": "Tests Liskov Substitution Principle with Rectangle implementation."
+      },
+      "response": []
+    },
+    {
+      "name": "LSP - POST /api/solid/lsp (SQUARE)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shape\": \"SQUARE\",\n  \"width\": 6,\n  \"height\": 6\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/lsp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "lsp"
+          ]
+        },
+        "description": "Tests Liskov Substitution Principle with Square implementation."
+      },
+      "response": []
+    },
+    {
+      "name": "ISP - POST /api/solid/isp (HUMAN)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"workerType\": \"HUMAN\",\n  \"task\": \"pack-orders\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/isp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "isp"
+          ]
+        },
+        "description": "Tests Interface Segregation Principle with Human worker."
+      },
+      "response": []
+    },
+    {
+      "name": "ISP - POST /api/solid/isp (ROBOT)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"workerType\": \"ROBOT\",\n  \"task\": \"scan-inventory\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/isp",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "isp"
+          ]
+        },
+        "description": "Tests Interface Segregation Principle with Robot worker."
+      },
+      "response": []
+    },
+    {
+      "name": "DIP - POST /api/solid/dip (EMAIL)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"channel\": \"EMAIL\",\n  \"recipient\": \"demo.user@example.com\",\n  \"message\": \"Order shipped\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/dip",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "dip"
+          ]
+        },
+        "description": "Tests Dependency Inversion Principle with Email sender implementation through abstraction."
+      },
+      "response": []
+    },
+    {
+      "name": "DIP - POST /api/solid/dip (SMS)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"channel\": \"SMS\",\n  \"recipient\": \"+15550001111\",\n  \"message\": \"Order delivered\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/solid/dip",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "solid",
+            "dip"
+          ]
+        },
+        "description": "Tests Dependency Inversion Principle with SMS sender implementation through abstraction."
+      },
+      "response": []
+    }
+  ]
+}
