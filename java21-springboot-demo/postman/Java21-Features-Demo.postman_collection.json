@@ -1,0 +1,364 @@
+{
+  "info": {
+    "_postman_id": "0f0b2a64-c4ba-4ebc-a29c-96a66c7a9054",
+    "name": "Java 21 Features Demo",
+    "description": "Postman collection for the Java 21 Spring Boot demo controller endpoints under /api/java21.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8085"
+    }
+  ],
+  "item": [
+    {
+      "name": "Catalog",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21"
+          ]
+        },
+        "description": "Returns the feature catalog."
+      }
+    },
+    {
+      "name": "Thread Comparison - Platform",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/threads/platform",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "threads",
+            "platform"
+          ]
+        },
+        "description": "Runs the blocking workflow using platform threads."
+      }
+    },
+    {
+      "name": "Thread Comparison - Virtual",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/threads/virtual",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "threads",
+            "virtual"
+          ]
+        },
+        "description": "Runs the blocking workflow using virtual threads."
+      }
+    },
+    {
+      "name": "Structured Concurrency",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/structured-concurrency",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "structured-concurrency"
+          ]
+        },
+        "description": "Executes concurrent subtasks using StructuredTaskScope."
+      }
+    },
+    {
+      "name": "Pattern Matching Switch - Credit Card",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"credit-card\",\n  \"number\": \"9123456789012345\",\n  \"corporateCard\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/pattern-matching-switch",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "pattern-matching-switch"
+          ]
+        },
+        "description": "Routes a credit card payment using pattern matching switch."
+      }
+    },
+    {
+      "name": "Pattern Matching Switch - Bank Transfer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"bank-transfer\",\n  \"iban\": \"DE89370400440532013000\",\n  \"instantSettlement\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/pattern-matching-switch",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "pattern-matching-switch"
+          ]
+        },
+        "description": "Routes a bank transfer payment using pattern matching switch."
+      }
+    },
+    {
+      "name": "Record Patterns - Physical Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"physical\",\n  \"customer\": {\n    \"customerId\": \"cust-101\",\n    \"tier\": \"gold\"\n  },\n  \"shippingAddress\": {\n    \"city\": \"Pune\",\n    \"country\": \"India\"\n  },\n  \"items\": [\n    \"Java 21 Book\",\n    \"Spring Boot Guide\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/record-patterns",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "record-patterns"
+          ]
+        },
+        "description": "Tests nested record destructuring with a physical order."
+      }
+    },
+    {
+      "name": "Record Patterns - Digital Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"type\": \"digital\",\n  \"customer\": {\n    \"customerId\": \"cust-202\",\n    \"tier\": \"platinum\"\n  },\n  \"downloadEmail\": \"customer@example.com\",\n  \"entitlements\": [\n    \"java21-course\",\n    \"spring-boot-lab\"\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/record-patterns",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "record-patterns"
+          ]
+        },
+        "description": "Tests nested record destructuring with a digital order."
+      }
+    },
+    {
+      "name": "Sequenced Collections",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/sequenced-collections",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "sequenced-collections"
+          ]
+        },
+        "description": "Returns ordered collection operations like first, last, and reversed."
+      }
+    },
+    {
+      "name": "String Templates",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"teamName\": \"Platform Enablement\",\n  \"owner\": \"Mohit\",\n  \"completedExamples\": 9\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/string-templates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "string-templates"
+          ]
+        },
+        "description": "Tests the string templates example payload."
+      }
+    },
+    {
+      "name": "Scoped Values",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/scoped-values?requestId=req-1001",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "scoped-values"
+          ],
+          "query": [
+            {
+              "key": "requestId",
+              "value": "req-1001"
+            }
+          ]
+        },
+        "description": "Passes a requestId to the scoped values demo."
+      }
+    },
+    {
+      "name": "Foreign Memory",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/foreign-memory",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "foreign-memory"
+          ]
+        },
+        "description": "Runs the foreign memory API demonstration."
+      }
+    },
+    {
+      "name": "Generational ZGC",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/generational-zgc",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "generational-zgc"
+          ]
+        },
+        "description": "Returns operational guidance for Generational ZGC."
+      }
+    },
+    {
+      "name": "SSE Stream",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "text/event-stream"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/java21/sse",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "java21",
+            "sse"
+          ]
+        },
+        "description": "Opens the server-sent events endpoint."
+      }
+    }
+  ]
+}
